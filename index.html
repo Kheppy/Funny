@@ -1,101 +1,104 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generatore di Numeri</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-      background-color: #f4f4f9;
-    }
-
-    h1 {
-      font-size: 24px;
-      color: #333;
-    }
-
-    button {
-      font-size: 20px;
-      padding: 15px;
-      margin-top: 20px;
-      width: 100%;
-      max-width: 300px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    #number {
-      font-size: 50px; /* Ingrandisce il numero */
-      font-weight: bold;
-      margin-top: 20px;
-      color: #FF4500; /* Colore arancione */
-      animation: grow 1s ease-in-out; /* Animazione */
-    }
-
-    @keyframes grow {
-      0% {
-        transform: scale(0.5);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    #message {
-      font-size: 22px; /* Ingrandisce il testo */
-      color: #008000; /* Colore verde */
-      margin-top: 10px;
-      visibility: hidden;
-      animation: fadeIn 2s ease-in-out forwards; /* Animazione */
-    }
-
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genera Numeri Random con Frasi</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            flex-direction: column;
+            text-align: center;
+        }
+        #passwordInput, #generateButton, #errorMessage {
+            margin: 10px;
+        }
+        #errorMessage {
+            color: red;
+            display: none;
+        }
+        #result {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>Se giochi non puoi tirarti indietro</h1>
+    <h1>Generatore di Numeri con Frasi</h1>
+    
+    <input type="password" id="passwordInput" placeholder="Inserisci password">
+    <button id="generateButton">Genera</button>
+    <p id="errorMessage">Password errata. Riprova.</p>
+    
+    <div id="result"></div>
 
-  <button onclick="generaNumero()">Genera Numero</button>
+    <script>
+        const phrases = [
+            "Wow, il numero 1 è difficile, a questo punto paghi da bere",
+            "Dai il via ad un trenino",
+            "A discrezione di Edo",
+            "Corri in bagno ed urla fortissimo 'LA BANANA'",
+            "Fai il ballo dell' OPLA UPLA, se non sai cosa è chiedi pure",
+            "Hai vinto uno shot",
+            "A discrezione di Edo",
+            "Prendi 5 cannucce e regalale ad una persona sconosciuta, se non accetta devi insistere",
+            "Vai fuori e chiedi un accendino per un secondo, restituiscilo letteralmente un secondo dopo",
+            "A discrezione di Edo",
+            "Ti è capitata la peggiore in assoluto, paga da bere",
+            "Hai vinto uno shot",
+            "Fai una storia su Instagram mentre balli 'Nasus nasus'",
+            "Una foto insieme",
+            "Dobbiamo ballare insieme no-sense per 5 minuti, se sei in gruppo tocca a tutti",
+            "Fingiti una giraffa in mezzo alla pista",
+            "A discrezione di Edo",
+            "Imita la pesca per tutta la durata di una canzone",
+            "Vai da qualcuno e chiedigli qual è il suo colore preferito, poi raccontagli una storia inventata su quel colore",
+            "A discrezione di Edo",
+            "Vai da uno sconosciuto e chiedigli di ballare con te come se fosse il tuo partner di tango",
+            "Devi cantare la prima canzone che ti viene in mente al centro della pista",
+            "Scambia un capo d’abbigliamento con una persona del tuo gruppo per 10 minuti",
+            "A discrezione di Edo",
+            "Fai il moonwalk fino al bar e torna indietro senza smettere",
+            "Fai un'imitazione del presentatore di un talent show mentre guardi la pista",
+            "Salta tre volte e urla 'SONO INVINCIBILE!'",
+            "A discrezione di Edo",
+            "Offri da bere a chiunque stia ballando vicino a te",
+            "Vai da qualcuno e chiedigli di mostrarti il suo miglior passo di danza",
+            "Fai la camminata del granchio fino alla porta più vicina e torna indietro",
+            "A discrezione di Edo",
+            "Cammina lentamente al centro della pista e fai una posa epica da supereroe",
+            "Dai il cinque a quante più persone riesci in un minuto",
+            "Fai finta di essere un robot danneggiato per tutta la durata di una canzone",
+            "A discrezione di Edo",
+            "Chiedi a qualcuno di raccontarti una barzelletta, e ridici sopra anche se non la capisci",
+            "Chiedi a una persona di ballare con te come se foste in una competizione",
+            "Vai da uno sconosciuto e fai finta di averlo appena riconosciuto come una vecchia conoscenza",
+            "A discrezione di Edo"
+        ];
 
-  <div id="number"></div>
-  <div id="message">Riferisci il numero estratto e tenta la sfortuna</div>
+        const generateButton = document.getElementById("generateButton");
+        const passwordInput = document.getElementById("passwordInput");
+        const resultDiv = document.getElementById("result");
+        const errorMessage = document.getElementById("errorMessage");
 
-  <script>
-    function generaNumero() {
-      // Genera un numero casuale tra 0 e 50
-      const numero = Math.floor(Math.random() * 51);
-      
-      // Mostra il numero generato e applica animazione
-      const numberDiv = document.getElementById('number');
-      numberDiv.innerText = numero;
-      numberDiv.style.animation = 'grow 1s ease-in-out';
-
-      // Mostra il messaggio con animazione
-      const messageDiv = document.getElementById('message');
-      messageDiv.style.visibility = 'visible';
-      messageDiv.style.animation = 'fadeIn 2s ease-in-out forwards';
-    }
-  </script>
+        generateButton.addEventListener("click", function() {
+            const password = passwordInput.value;
+            if (password === "321") {
+                errorMessage.style.display = "none";
+                const randomIndex = Math.floor(Math.random() * 40);
+                const randomPhrase = phrases[randomIndex];
+                resultDiv.textContent = `Numero: ${randomIndex + 1} - ${randomPhrase}`;
+            } else {
+                errorMessage.style.display = "block";
+            }
+        });
+    </script>
 
 </body>
 </html>
