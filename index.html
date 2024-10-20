@@ -35,15 +35,39 @@
     }
 
     #number {
-      font-size: 30px;
+      font-size: 50px; /* Ingrandisce il numero */
+      font-weight: bold;
       margin-top: 20px;
+      color: #FF4500; /* Colore arancione */
+      animation: grow 1s ease-in-out; /* Animazione */
+    }
+
+    @keyframes grow {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
     #message {
-      font-size: 18px;
-      color: #666;
+      font-size: 22px; /* Ingrandisce il testo */
+      color: #008000; /* Colore verde */
       margin-top: 10px;
       visibility: hidden;
+      animation: fadeIn 2s ease-in-out forwards; /* Animazione */
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
     }
   </style>
 </head>
@@ -54,18 +78,22 @@
   <button onclick="generaNumero()">Genera Numero</button>
 
   <div id="number"></div>
-  <div id="message">Riferisci il numero estratto</div>
+  <div id="message">Riferisci il numero estratto e tenta la sfortuna</div>
 
   <script>
     function generaNumero() {
       // Genera un numero casuale tra 0 e 50
       const numero = Math.floor(Math.random() * 51);
       
-      // Mostra il numero generato
-      document.getElementById('number').innerText = numero;
-      
-      // Mostra il messaggio
-      document.getElementById('message').style.visibility = 'visible';
+      // Mostra il numero generato e applica animazione
+      const numberDiv = document.getElementById('number');
+      numberDiv.innerText = numero;
+      numberDiv.style.animation = 'grow 1s ease-in-out';
+
+      // Mostra il messaggio con animazione
+      const messageDiv = document.getElementById('message');
+      messageDiv.style.visibility = 'visible';
+      messageDiv.style.animation = 'fadeIn 2s ease-in-out forwards';
     }
   </script>
 
